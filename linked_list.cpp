@@ -12,6 +12,15 @@ public:
 
 	}
 
+	~Node(){
+		int  val = this->data;
+		if(this->next != NULL){
+			delete next;
+			this->next = NULL;
+		}
+		cout<<"memory is free for node with data"<<val<<endl;
+	}
+
 };
 void inseetAtTail(Node* &tail, int d){
 	Node* temp = new Node(d);
@@ -25,7 +34,7 @@ void insertAtHead(Node* &head, int d){
 	head = temp;
 
 }
-void inserAtPos(Node* &head, int pos, int d){
+void inserAtPos(Node* &tail, Node* &head, int pos, int d){
 	if(pos==1){
 		insertAtHead(head, d);
 		return;
@@ -35,6 +44,10 @@ void inserAtPos(Node* &head, int pos, int d){
 	while(cnt < pos -1){
 		temp = temp -> next;
 		cnt++;
+	}
+	if(temp->next == NULL){
+		inseetAtTail(tail, d);
+		return;
 	}
 
 	Node* nodeToinsert = new Node(d);
@@ -56,6 +69,31 @@ void print(Node* &head){
 
 }
 
+void deleteNode(int pos, Node* &head){
+	if(pos == 1){
+		Node* temp = head;
+		head = head->next;
+		temp->next = NULL;
+		delete temp;
+
+	}
+	else{
+
+		Node* curr = head;
+		Node* prev = NULL;
+		int cnt =1;
+		while(cnt <= pos){
+			prev = curr;
+			curr = curr->next;
+			cnt++;
+
+		}
+		prev->next = curr->next;
+		curr->next = NULL;
+		delete curr;
+	}
+}
+
 int main(){
 
 	Node* node1 = new Node(10);
@@ -71,7 +109,10 @@ int main(){
 	print(head);
 	inseetAtTail(tail, 15);
 	print(head);
-	inserAtPos(head, 3, 22);
+	inserAtPos(tail,head, 3, 22);
 	print(head);
+	deleteNode(1, head);
+	print(head);
+
 
 }
