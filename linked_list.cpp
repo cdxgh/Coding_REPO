@@ -62,6 +62,7 @@ void print(Node* &head){
 	while(temp != 0){
 		cout << temp-> data <<" ";
 		temp = temp->next;
+		
 
 
 	}
@@ -82,7 +83,7 @@ void deleteNode(int pos, Node* &head){
 		Node* curr = head;
 		Node* prev = NULL;
 		int cnt =1;
-		while(cnt <= pos){
+		while(cnt < pos){
 			prev = curr;
 			curr = curr->next;
 			cnt++;
@@ -92,6 +93,21 @@ void deleteNode(int pos, Node* &head){
 		curr->next = NULL;
 		delete curr;
 	}
+}
+Node* reverseLL(Node* &head){
+	if(head==NULL || head->next==NULL){
+		return head;
+	}
+	Node*prev=NULL;
+	Node*curr=head;
+	Node* forward = curr->next;
+	while(curr != NULL){
+		forward = curr->next;
+		curr->next = prev;
+		prev = curr;
+		curr=forward;
+	}
+	return prev;
 }
 
 int main(){
@@ -113,6 +129,8 @@ int main(){
 	print(head);
 	deleteNode(1, head);
 	print(head);
+	 head = reverseLL(head); // Fix: Assign the reversed list back to 'head'.
+    print(head);
 
 
 }
